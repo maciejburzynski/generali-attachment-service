@@ -4,6 +4,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.List;
 
 @Repository
@@ -29,4 +31,18 @@ public class AttachmentRepository implements AttachmentDao{
                  attachment.name(),
                  attachment.content());
     }
+
+/*
+Not used in the project
+Demonstrates how to create savepoint to be able to work with @Transactional and Propagation mode = NESTED
+JPA does not support Savepoints at the moment (10.11.2023 21:37)
+ */
+    private void savePoint() throws SQLException {
+        Connection connection = jdbcTemplate.getDataSource().getConnection();
+        connection.setSavepoint();
+        connection.setSavepoint("SP1");
+        connection.setSavepoint("SP2");
+    }
+
+
 }
