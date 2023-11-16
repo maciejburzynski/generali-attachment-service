@@ -2,6 +2,8 @@ package com.generali.attachmentservice.activemq;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.jms.JMSException;
+import jakarta.jms.TextMessage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.jms.annotation.JmsListener;
@@ -19,15 +21,8 @@ public class ActiveMQConsumer {
 
 
     @JmsListener(destination = "test")
-    void consumeMessage(String message) throws JsonProcessingException {
-        log.info("The message is: ");
-        log.info(message);
-        log.info("TADAM!");
-
-
-        ObjectMapper objectMapper = new ObjectMapper();
-        OrderDto orderDto = objectMapper.readValue(message, OrderDto.class);
+    void consumeMessage(OrderDto orderDto) throws JsonProcessingException, JMSException {
         log.info("New object is born!");
-        log.info("OrderDto: {}", orderDto);
+        log.info("OrderDto: {}", orderDto.toString());
     }
 }
