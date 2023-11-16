@@ -13,13 +13,14 @@ import java.util.List;
 public class AttachmentRepository implements AttachmentDao{
 
     private final JdbcTemplate jdbcTemplate;
+    private AttachmentMapper attachmentMapper = new AttachmentMapper();
 
     @Override
     public List<Attachment> findAll() {
         String query = "SELECT id, name, content, created_at " +
                 "FROM Attachments";
 
-        return jdbcTemplate.query(query, new AttachmentMapper());
+        return jdbcTemplate.query(query, attachmentMapper);
     }
 
     @Override
